@@ -65,7 +65,7 @@ namespace Virgil
 
         public override void nextRunTimeStamp(DateTime timeStamp)
         {
-            
+            messageLog(this, new MessageEvent("Received time stamp."));
         }
 
         public override bool outputGPIBGroup(GPIBGroup gpibGroup, SettingsData settings)
@@ -98,20 +98,17 @@ namespace Virgil
             messageLog(this, new MessageEvent("Received sequence data."));
             List<Variable> vars = sequence.Variables;
             string dateTime = DateTime.Now.ToString("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss");
-            string logName;
             string dir = serverSettings.LogFilePath;
+            string tentativeLogNameWithDir = Path.Combine(dir, "Variables_" + dateTime);
+            string logFileExtension = ".txt";
+            string logFullPath = tentativeLogNameWithDir + "_0" + logFileExtension;
 
-            if (File.Exists(Path.Combine(dir, "Variables_" + dateTime + ".txt")))
+            for (int i = 1; i <= 10 & File.Exists(logFullPath); i++)
             {
-                logName = "Variables_" + dateTime + "_1.txt";
-            }
-            else
-            {
-                logName = "Variables_" + dateTime + ".txt";
+                logFullPath = tentativeLogNameWithDir + "_" + i.ToString() + logFileExtension;
             }
 
-            string fullPath = Path.Combine(dir, logName);
-            using (StreamWriter writer = new StreamWriter(fullPath))
+            using (StreamWriter writer = new StreamWriter(logFullPath))
             {
                 writer.WriteLine("[Variables]");
                 foreach (Variable var in vars)
@@ -124,6 +121,7 @@ namespace Virgil
 
         public override bool setSettings(SettingsData settings)
         {
+            messageLog(this, new MessageEvent("Received settings data."));
             return true;
         }
 
