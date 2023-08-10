@@ -98,9 +98,18 @@ namespace Virgil
             messageLog(this, new MessageEvent("Received sequence data."));
             List<Variable> vars = sequence.Variables;
             string dateTime = DateTime.Now.ToString("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss");
-            string logName = "Variables_" + dateTime + ".txt";
-
+            string logName;
             string dir = serverSettings.LogFilePath;
+
+            if (File.Exists(Path.Combine(dir, "Variables_" + dateTime + ".txt")))
+            {
+                logName = "Variables_" + dateTime + "_1.txt";
+            }
+            else
+            {
+                logName = "Variables_" + dateTime + ".txt";
+            }
+
             string fullPath = Path.Combine(dir, logName);
             using (StreamWriter writer = new StreamWriter(fullPath))
             {
