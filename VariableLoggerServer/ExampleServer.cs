@@ -29,6 +29,7 @@ namespace Virgil
             this.serverSettings = serverSettings;
             this.serverSettings.LogFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             this.serverSettings.ServerName = "VariableLogger";
+            this.serverSettings.ServerPort = 5679;
         }
 
 
@@ -164,7 +165,7 @@ namespace Virgil
             {
                 lock (marshalLock)
                 {
-                    tcpChannel = new TcpChannel(5678);
+                    tcpChannel = new TcpChannel(serverSettings.ServerPort);
                     ChannelServices.RegisterChannel(tcpChannel, false);
                     objRef = RemotingServices.Marshal(this, "serverCommunicator");
                 }

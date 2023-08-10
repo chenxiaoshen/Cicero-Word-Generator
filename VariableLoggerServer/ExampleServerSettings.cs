@@ -15,6 +15,13 @@ namespace Virgil
             set { serverName = value; }
         }
 
+        private int serverPort;
+        public int ServerPort
+        {
+            get { return serverPort; }
+            set { serverPort = value; }
+        }
+
         private string logFilePath;
 
         public string LogFilePath
