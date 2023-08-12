@@ -27,10 +27,9 @@ namespace Virgil
         {
             this.exampleServerForm = form;
             this.serverSettings = serverSettings;
-            this.serverSettings.LogFilePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-
+            string yearDateDir = DateTime.Now.ToString("yyyy'/'MM'/'MM' 'dd'/''Variable Logs'");
+            this.serverSettings.LogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), yearDateDir);
             //TODO add path to today's folder
-
             this.serverSettings.ServerName = "VariableLogger";
             this.serverSettings.ServerPort = 5679;
         }
@@ -102,10 +101,11 @@ namespace Virgil
             messageLog(this, new MessageEvent("Received sequence data."));
             List<Variable> vars = sequence.Variables;
             string dateTime = DateTime.Now.ToString("yyyy'_'MM'_'dd'_'HH'_'mm'_'ss");
+            Directory.CreateDirectory(serverSettings.LogFilePath);
             string dir = serverSettings.LogFilePath;
 
             //TODO Check if dir exists; if not, create it recursively
-            
+        
             string tentativeLogNameWithDir = Path.Combine(dir, "Variables_" + dateTime);
             string logFileExtension = ".txt";
             string logFullPath = tentativeLogNameWithDir + "_0" + logFileExtension;
