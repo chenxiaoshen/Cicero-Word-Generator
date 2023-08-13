@@ -27,9 +27,11 @@ namespace Virgil
         {
             this.exampleServerForm = form;
             this.serverSettings = serverSettings;
-            string yearDateDir = DateTime.Now.ToString("yyyy'/'MM'/'MM' 'dd'/''Variable Logs'");
+            string yearDateDir = DateTime.Now.ToString("'Data/'yyyy'/'MM'-'yyyy'/'dd' 'MMM' 'yyyy'/''Variable Logs'");
             this.serverSettings.LogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), yearDateDir);
-            //TODO add path to today's folder
+          
+            //TODO add path to today's folder.(DONE)
+
             this.serverSettings.ServerName = "VariableLogger";
             this.serverSettings.ServerPort = 5679;
         }
@@ -104,7 +106,7 @@ namespace Virgil
             Directory.CreateDirectory(serverSettings.LogFilePath);
             string dir = serverSettings.LogFilePath;
 
-            //TODO Check if dir exists; if not, create it recursively
+            //TODO Check if dir exists; if not, create it recursively.(DONE)
         
             string tentativeLogNameWithDir = Path.Combine(dir, "Variables_" + dateTime);
             string logFileExtension = ".txt";
